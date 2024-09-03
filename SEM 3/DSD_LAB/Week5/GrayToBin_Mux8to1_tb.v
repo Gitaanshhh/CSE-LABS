@@ -1,19 +1,19 @@
-//Test bench
 `timescale 1ns/1ns
-`include "GrayToBin_Mux8to1.v"
 module GrayToBin_Mux8to1_tb();
-reg A, B, C, D;
-wire f;
-Function_Mux4to1 mu(A, B, C, D, f);
-initial
-begin
- $dumpfile("Function_Mux4to1_tb.vcd");
- $dumpvars(0, Function_Mux4to1_tb);
- for (integer i=0; i<16; i++)
- begin
-   {A, B, C, D} = i;
-   #10;
- end
- $display("Done");
-end
+  reg [3:0] G;
+  wire [3:0] B;
+
+  GrayToBin_Mux8to1 mu(G, B);
+
+  initial begin
+    $dumpfile("GrayToBin_Mux8to1_tb.vcd");
+    $dumpvars(0, GrayToBin_Mux8to1_tb);
+
+    for (integer i = 0; i < 16; i = i + 1) begin
+      G = i; // Assign G as a 4-bit vector
+      #10;
+    end
+    
+    $display("Done");
+  end
 endmodule
