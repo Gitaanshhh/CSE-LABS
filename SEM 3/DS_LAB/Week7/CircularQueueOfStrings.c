@@ -2,91 +2,102 @@
 deletecq and displaycq.*/
 
 #include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
 
-#define MAX 20
+#define size 10
 
 // Empty -> f, r = -1
 // Full -> f-1 = r
 
 
 typedef struct {
-	char Data[MAX];
-	int front;
-	int rear;
-} queue;
+    char str[10];
+} String;
 
-void insertq(queue * q,char * Data)
-{
-	if(q->rear==q->front-1) //rear+1)%MAX
-		printf("\nOverflow\n");
-	else
-	{
-		q->Data[(++q->rear)%MAX]=*Data;
-		if(q->front==-1)
-			q->front=0;
-	}
+typedef struct {
+    String s[size];
+    int front,rear;
+} Queue;
+
+bool isFull(Queue q) {
+    if ((q.front == q.rear + 1) || (q.front == 0 && q.rear == size - 1)) 
+        return true;
+    return false;
 }
 
-char * deleteq(queue * q)
-{
-	char * Data = '\0';
-	if(q->front==-1)
-		printf("\nUnderflow!!!\n");
-	else if(q->front==q->rear)
-	{
-		Data=q->Data[(q->front)%MAX];
-		q->front=q->rear=-1;
-		return Data;
-	}
-	else return q->Data[(q->front++)%MAX];
-	return Data;
+bool isEmpty(Queue q) {
+    if (q.front == -1) 
+        return true;
+    return false;
 }
 
-void displayq(queue q)
-{
-	int i;
-	if(q.front==-1)
-		printf("\nQueue is Empty!!!");
-	else
-	{
-		printf("\nQueue is:\n");
-		for(i=q.front%MAX;i<=q.rear%MAX;i++)
-			printf("%d\n",q.Data[i]);
-	}
+void insertcq(Queue * q,char string[10]) {
+    if(isFull(*q)) {
+        printf("Error. Queue is full");
+        return;
+    }
+    if (q->front == -1)
+        q->front = 0;
+    q->rear = (q->rear + 1) % size;
+    strcpy((q->s[q->rear]).str,string);
 }
 
-int main()
-{
-	queue q;
-	q.front=-1;
-	q.rear=-1;
-	int ch,flag=1;
-	while(flag)
-	{
-		printf("\n\n1. Insert Queue\n2. Delete Queue\n3. Display Queue\n4. Exit\n\n");
-		printf("Enter your choice: ");
-		scanf("%d",&ch);
-		switch(ch)
-		{
-			case 1:
-				printf("\nEnter the Element:");
-				char Data[20];
-				scanf("%s",Data);
-				insertq(&q,&Data);
+void deletecq(Queue * q) {
+    if(isEmpty(*q)) {
+        printf("Error. Queue is empty");
+        return;
+    }
+    char string[10];
+    strcpy(string,(q->s[q->front]).str);
+    if (q->front == q->rear) {
+        q->front = -1;
+        q->rear = -1;
+    }
+    else 
+        q->front = (q->front + 1) % size;
+    printf("Deleted string: %s",string);
+}
+
+void displaycq(Queue q) {
+    int i;
+    if(isEmpty(q)) {
+        printf("Empty queue");
+        return;
+    }
+    printf("\nThe Queue is:\n");
+    for(i=q.front;i<=q.rear;i=(i+1)%size)
+        printf("%s ",q.s[i].str);
+    //printf("%s",q.s[i].str);
+}
+
+int main(){
+	int inp;
+    char temp[10];
+    Queue q;
+    q.front = -1;
+    q.rear = -1;
+    printf("\n1. Insert, 2. Delete, 3. Display, 4. Exit");
+    do {
+        printf("\nEnter choice. ");
+        scanf("%d",&inp);
+        switch(inp){
+            case 1:
+				printf("Enter string to insert ");
+                scanf("%s",temp);
+                insertcq(&q,temp);
 				break;
 			case 2:
-				Data=deleteq(&q);
-				printf("\nRemoved %s from the Queue\n",Data);
+				deletecq(&q);
 				break;
 			case 3:
-				displayq(q);
+				displaycq(q);
 				break;
 			case 4:
-				flag=0;
+				inp=-1;
 				break;
 			default:
 				printf("\nWrong choice!!! Try Again.\n");
-		}
-	}
-	return 0;
+        }
+    } while(inp != -1);
 }
