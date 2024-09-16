@@ -1,12 +1,13 @@
+
 // Circular Queue
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
 
-#define MAX 10
+#define HalfSize 10
 
 typedef struct{
-    int items[MAX];
+    int * items;
     int front1, front2, rear1, rear2;
 }Queue;
 
@@ -17,19 +18,19 @@ bool isEmpty1(Queue q) {
 }
 
 bool isFull1(Queue q){
-    if ((q.front1 == q.rear1 + 1) || (q.front1 == 0 && q.rear1 == MAX - 1)) 
+    if ((q.front1 == q.rear1 + 1) || (q.front1 == 0 && q.rear1 == HalfSize - 1)) 
         return true;
     else return false;
 }
 
 bool isEmpty2(Queue q) {
-    if (q.front2 == MAX - 1)
+    if (q.front2 == HalfSize - 1)
         return true;
     else return false;
 }
 
 bool isFull2(Queue q){
-    if ((q.front2 == q.rear2 + 1) || (q.front2 == MAX && q.rear2 == (MAX* 2) - 1)) 
+    if ((q.front2 == q.rear2 + 1) || (q.front2 == HalfSize && q.rear2 == (HalfSize* 2) - 1)) 
         return true;
     else return false;
 }
@@ -41,7 +42,7 @@ void insertcq1(Queue * q,int x) {
     }
     if (q->front1 == -1)
         q->front1 = 0;
-    q->rear1 = (q->rear1 + 1) % MAX;
+    q->rear1 = (q->rear1 + 1) % HalfSize;
     q->items[q->rear1] = x;
 }
 
@@ -50,9 +51,9 @@ void insertcq2(Queue * q,int x) {
         printf("Error. Queue is full");
         return;
     }
-    if (q->front2 == MAX-1)
-        q->front2 = MAX;
-    q->rear2 = ((q->rear2 + 1) % MAX)+MAX;
+    if (q->front2 == HalfSize-1)
+        q->front2 = HalfSize;
+    q->rear2 = ((q->rear2 + 1) % HalfSize)+HalfSize;
     q->items[q->rear2] = x;
 }
 
@@ -67,7 +68,7 @@ int deletecq1(Queue * q) {
         q->rear1 = -1;
     }
     else 
-        q->front1 = (q->front1 + 1) % MAX;
+        q->front1 = (q->front1 + 1) % HalfSize;
     return item;
 }
 
@@ -78,11 +79,11 @@ int deletecq2(Queue * q) {
     }
     int item = q->items[q->front2];
     if (q->front2 == q->rear2) {
-        q->front2 = MAX-1;
-        q->rear2 = MAX-1;
+        q->front2 = HalfSize-1;
+        q->rear2 = HalfSize-1;
     }
     else
-        q->front2 = ((q->front2 + 1) % MAX) + MAX;
+        q->front2 = ((q->front2 + 1) % HalfSize) + HalfSize;
     return item;
 }
 
@@ -94,7 +95,7 @@ void displaycq(Queue q) {
     }
     else {
 
-        for(i=q.front1;i!=q.rear1;i=(i+1)%MAX) {
+        for(i=q.front1;i!=q.rear1;i=(i+1)%HalfSize) {
             printf("%d ",q.items[i]);
         }
         printf("%d",q.items[i]);
@@ -105,7 +106,7 @@ void displaycq(Queue q) {
     }
     else {
 
-        for(i=q.front2;i!=q.rear2;i=((i+1)%(MAX * 2))+MAX) {
+        for(i=q.front2;i!=q.rear2;i=((i+1)%(HalfSize * 2))+HalfSize) {
             printf("%d ",q.items[i]);
         }
         printf("%d",q.items[i]);
@@ -113,16 +114,13 @@ void displaycq(Queue q) {
 }
 
 int main() {
-    int temp,ch,n;
+    int temp,ch;
     Queue q;
-    printf("Enter n ");
-    scanf("%d",&n);
-    q.items = (int *) malloc(n*sizeof(int));
+    q.items = (int *) malloc(2*HalfSize*sizeof(int));
     q.front1 = -1;
     q.rear1 = -1;
-    MAX = n/2;
-    q.front2 = MAX - 1;
-    q.rear2 = MAX - 1;
+    q.front2 = HalfSize - 1;
+    q.rear2 = HalfSize - 1;
     printf("\n1. Insert1, 2. Insert2, 3. Delete1, 4. Delete2, 5. Display, 6. Exit");
     do {
         printf("\nEnter choice. ");
