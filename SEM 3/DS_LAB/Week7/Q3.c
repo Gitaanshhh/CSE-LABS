@@ -23,7 +23,6 @@ int delete(Queue * q) {
     else q->front = q->front + 1;
     return item;
 }
-a
 bool search(Queue *q, int N, int K) {
     // Iterate through the queue in groups of 3
     for (int i = q->front; i <= q->rear; i += 3) 
