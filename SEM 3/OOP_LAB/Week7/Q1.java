@@ -1,6 +1,8 @@
 import java.util.Scanner;
 
-import com.course.structure.*; //, com.course.structure.School, com.course.structure.House, ;
+import com.course.structure.Building;
+import com.course.structure.School; 
+import com.course.structure.House;
 
 
 public class Q1 {
