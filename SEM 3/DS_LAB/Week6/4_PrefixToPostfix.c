@@ -52,23 +52,23 @@ int main() {
             continue;
         
         else if (isOp(expr[i])) {
-            
-            strcpy(op1,pop(&s));
-            strcpy(op2,pop(&s));
-            int i2,i3=0,ind2=0;
-            int len = strlen(op1) + strlen(op2) + 1;
-            temp = (char *) calloc (len,sizeof(char));
-            strcat(temp,op1);
-            strcat(temp,op2);
-            temp[len-1] = expr[i];
-            push(&s,temp);
-        }
+        strcpy(op1, pop(&s));
+        strcpy(op2, pop(&s));
+        int len = strlen(op1) + strlen(op2) + 2;  // +2 for operator and null terminator
+        char temp[len];
+        temp[0] = '\0';  // Initialize as an empty string
+        strcpy(temp, op1);
+        strcat(temp, op2);
+        temp[len-2] = expr[i];
+        temp[len-1] = '\0';
+        push(&s, temp);
+    }
         else {
-            temp = (char *) malloc (2*sizeof(char));
-            temp[0] = expr[i];
-            temp[1] = '\0';
-            push(&s,temp);
-        }
+        char temp[2];
+        temp[0] = expr[i];
+        temp[1] = '\0';
+        push(&s, temp);
+    }
         i--;
     } while( i >= 0 );
 
