@@ -13,58 +13,56 @@ typedef struct {
 	int size;
 } Queue;
 
-
 void insertr(Queue *q, char str){
-	if(q->rear==q->front-1)
-		printf("Queue is Full");
-	else{
-		q->Data[(q->rear)] = str;
-		//strcpy(q->Data[(q->rear)], str);
-		if(q->front==-1)
-			q->front=0;
-	}
+	q->Data[++(q->rear)] = str;
+	if(q->front==-1)
+		q->front=0;
+}
+/*
+void insertf(Queue *q, char str){
+	q->Data[--(q->front)] = str;
 }
 
-char delete(Queue *q){
-	if(q->front==-1){
-		printf("Empty Queue. ");
-		return '\0';
-		//strcpy(str, '\0');
-	}
-	else if(q->front==q->rear){
-		char str;
-		strcpy(str, q->Data[(q->front)]);
+char deletef(Queue *q){
+	char str;
+    str = q->Data[(q->front)];
+	if(q->front==q->rear)
 		q->front=q->rear=-1;
-		return str;
-	}
-	else {
-		char str;
-		strcpy(str, q->Data[(q->front++)]);
-		return str;
-	}
+	else q->front++;
+	return str;
+}
+*/
+char deleter(Queue *q){
+	char str;
+    str = q->Data[(q->rear)];
+	if(q->front==q->rear)
+		q->front=q->rear=-1;
+	else q->rear--;
+	return str;
 }
 
-void display(Queue q){
-	int i;
-	if(q.front==-1)
-		printf("Empty Queue. ");
-	else{
-		printf("\nQueue is:\n");
-		for(i=q.front;i<=q.rear;i++)
-			printf("%s ",q.Data[i]);
-	}
+int isPalindrome(char * str){
+    Queue q;
+	q.front = q.rear = -1;
+	int n = q.size = strlen(str);
+	q.Data = (char *)malloc(n*sizeof(char));
+    for(int i=0; i<n; i++){
+        if (i<n/2)
+            insertr(&q, str[i]);
+        else if (n%2!=0 && i==n/2)
+            continue;
+        else if (deleter(&q) != str[i])
+            return 0;
+    }
+    return 1;
 }
 
 int main(){
 	char str[20];
 	printf("Enter String : ");
 	scanf("%s", str);
-
-	Queue q;
-	q.front=-1;
-	q.rear=-1;
-	q.size = strlen(str);
-	q.Data = (char *)malloc(n*sizeof(char));
-	
+    if(isPalindrome(str))
+        printf("Palindrome");
+    else printf("Not a Palindrome.");
 	return 0;
 }
