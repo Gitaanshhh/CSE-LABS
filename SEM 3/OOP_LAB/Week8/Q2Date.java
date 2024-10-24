@@ -24,7 +24,7 @@ class CurrentDate {
 
 }
 
-class Q2Date {
+public class Q2Date {
     public static void main(String args[]) throws MyExceptions {
         MyExceptions invalMonth = new MyExceptions("InvalidMonthException");
         MyExceptions invalDay = new MyExceptions("InvalidDayException");
