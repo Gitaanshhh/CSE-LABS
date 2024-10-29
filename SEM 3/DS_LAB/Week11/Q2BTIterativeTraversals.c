@@ -12,9 +12,40 @@ typedef struct btree {
 } btree;
 
 typedef struct {
-	btree *Node;
-	int flag;
+    btree * nodes[100];
+    int tos;
 } Stack;
+
+void push(Stack * s, btree * x) {
+    s->nodes[++(s->tos)] = x;
+}
+
+btree * pop(Stack * s) {
+    return (s->nodes[(s->tos)--]);
+}
+
+typedef struct {
+    btree ** nodesList;
+    int front,rear;
+} Queue;
+
+void insertQ(Queue *q, btree * node) {
+    if (q->front == -1)
+        q->front = 0;
+    q->nodesList[++(q->rear)] = node;
+}
+
+btree * deleteQ(Queue *q) {
+    btree * item = (btree *) malloc(sizeof(btree));
+    item = q->nodesList[q->front];
+    if (q->front == q->rear) {
+        q->front = -1;
+        q->rear = -1;
+    }
+    else 
+        q->front++;
+    return item;
+}
 
 btree *createNode(char ele){
 	btree *newNode = calloc(1, sizeof(btree));
@@ -59,57 +90,99 @@ void createIterative(btree **root){
 	} while (ch != -1);
 }
 
-void inorder(btree *root){
-	if(root){
-		inorder(root->lchild);
-		printf("%c ", root->ele);
-		inorder(root->rchild);
-	}
+void iterPreOrder(btree ** tree) {
+    btree * temp = (btree *) malloc(sizeof(btree));
+    Stack s;
+    s.tos = -1;
+    push(&s,*tree);
+    while (s.tos != -1) {
+        temp = pop(&s);
+        printf("%d ",temp->ele);
+        if (temp->rchild != NULL)
+            push(&s,temp->rchild);
+        if (temp->lchild != NULL)
+            push(&s,temp->lchild);
+    }
 }
 
-void preorder(btree *root){
-	if(root){
-		printf("%c ", root->ele);
-		preorder(root->lchild);
-		preorder(root->rchild);
-	}
+void iterPostOrder(btree **tree) {
+    Stack s;
+    s.tos = -1;
+    btree * temp = (btree *) malloc(sizeof(btree));
+    btree * temp2 = (btree *) malloc(sizeof(btree));
+    temp = *tree;
+    do {
+        while (temp != NULL) {
+            if (temp->rchild != NULL)
+                push(&s,temp->rchild);
+            push(&s,temp);
+            temp = temp->lchild;
+        }
+
+        temp = pop(&s);
+        if ((temp->rchild != NULL) && (s.nodes[s.tos] == (temp->rchild))) {
+            temp2 = pop(&s);
+            push(&s,temp);
+            temp = temp2;
+        }   
+        else {
+            printf("%d ", temp->ele);
+            temp = NULL;
+        }
+    } while(s.tos != -1);
 }
 
-void postorder(btree *root){
-	btree * current = root;
-	stack s[50];
-	int tos = -1;
-	if(root == NULL)
-		return;
-	for(;;){
-		while(current!=NULL){
-			s[++tos].node = current;
-			s[tos].flag = 1;
-			current = current->llink;
-		}
-		while(s[tos].flag<0){
-			current = s[tos--].node;
-			printf("%c ", current->ele);
-			if (tos == -1)
-				return;
-		}
-		current = s[tos].node;
-		current = current->rlink;
-		s[tos].flag = -1;
-	}
+void iterInOrder(btree **tree) {
+    Stack s;
+    s.tos = -1;
+    btree * temp = (btree *) malloc(sizeof(btree));
+    temp = *tree;
+    do {
+        if (temp != NULL) {
+            push(&s,temp);
+            temp = temp->lchild;
+        }
+        else {
+            if (s.tos != -1) {
+                temp = pop(&s);
+                printf("%d ",temp->ele);
+                temp = temp->rchild;
+            }
+            else 
+                break;
+        }
+    } while(1);
 }
 
-int main(){
-	btree *root = NULL;
-	createIterative(&root);
-	printf("Inorder : ");
-	inorder(root);
-	printf("\n");
-	printf("Preorder : ");
-	preorder(root);
-	printf("\n");
-	printf("Postorder : ");
-	postorder(root);
-	printf("\n");
-	return 0;
+void iterLevelOrder(btree **tree) {
+    Queue q;
+    q.nodesList = (btree **) malloc(20 * sizeof(btree *));
+    q.front = -1;
+    q.rear = -1;
+    btree * temp = (btree *) malloc(sizeof(btree));
+    temp = *tree;
+    while (temp != NULL) {
+        printf("%d ",temp->ele);
+        if (temp->lchild != NULL)
+            insertQ(&q,temp->lchild);
+        if (temp->rchild != NULL)
+            insertQ(&q,temp->rchild);
+        if (q.front == -1)
+            temp = NULL;
+        else
+            temp = deleteQ(&q);
+    }
+}
+
+int main() {
+    btree * tree = (btree *) malloc(sizeof(btree));
+    createIterative(&tree);
+    printf("Pre Order : ");
+    iterPreOrder(&tree);
+    printf("\nPost Order : ");
+    iterPostOrder(&tree);
+    printf("\nInOrder : ");
+    iterInOrder(&tree);
+    printf("\nLevel Order : ");
+    iterLevelOrder(&tree);
 }
