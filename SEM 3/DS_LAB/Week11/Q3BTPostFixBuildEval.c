@@ -55,31 +55,6 @@ double evaluate(btree * node) {
     return eval(node->ele,x,y);
 }
 
-btree *createRecursive(char data){
-	char dummy;
-	if (data!='#'){
-		btree *newNode = createNode(data);	
-		printf("L Child Data : ");
-		scanf("%c", &dummy);
-		scanf("%c", &data);
-		newNode->lchild = createRecursive(data);
-		printf("R Child Data : ");
-		scanf("%c", &dummy);
-		scanf("%c", &data);
-		newNode->rchild = createRecursive(data);
-		return newNode;
-	} 
-	return NULL;
-}
-
-void inorder(btree *root){
-	if(root){
-		inorder(root->lchild);
-		printf("%c ", root->ele);
-		inorder(root->rchild);
-	}
-}
-
 int main() {
     Stack nodeStack;
     nodeStack.tos = -1;
