@@ -1,0 +1,85 @@
+//Q2
+
+import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+public class Q2ResumeApp extends Application {
+
+    @Override
+    public void start(Stage primaryStage) {
+        // Input fields for personal details
+        TextField nameField = new TextField();
+        nameField.setPromptText("Enter your name");
+
+        TextField emailField = new TextField();
+        emailField.setPromptText("Enter your email");
+
+        TextField phoneField = new TextField();
+        phoneField.setPromptText("Enter your phone number");
+
+        // Checkboxes for languages
+        CheckBox englishCheckbox = new CheckBox("English");
+        CheckBox frenchCheckbox = new CheckBox("French");
+        CheckBox germanCheckbox = new CheckBox("German");
+        CheckBox spanishCheckbox = new CheckBox("Spanish");
+
+        // Submit button
+        Button submitButton = new Button("Submit");
+
+        // Canvas for displaying resume
+        Canvas canvas = new Canvas(400, 300);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        // Action on Submit button click
+        submitButton.setOnAction(e -> {
+            // Retrieve values from input fields and checkboxes
+            String name = nameField.getText();
+            String email = emailField.getText();
+            String phone = phoneField.getText();
+
+            // Get selected languages
+            StringBuilder languages = new StringBuilder();
+            if (englishCheckbox.isSelected()) languages.append("English ");
+            if (frenchCheckbox.isSelected()) languages.append("French ");
+            if (germanCheckbox.isSelected()) languages.append("German ");
+            if (spanishCheckbox.isSelected()) languages.append("Spanish ");
+
+            // Clear canvas and display resume details
+            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            gc.fillText("Resume", 50, 30);
+            gc.fillText("Name: " + name, 50, 60);
+            gc.fillText("Email: " + email, 50, 90);
+            gc.fillText("Phone: " + phone, 50, 120);
+            gc.fillText("Languages: " + languages.toString(), 50, 150);
+        });
+
+        // Layout
+        VBox layout = new VBox(10,
+                new Label("Create Your Resume"),
+                nameField, emailField, phoneField,
+                new Label("Languages You Can Speak:"),
+                englishCheckbox, frenchCheckbox, germanCheckbox, spanishCheckbox,
+                submitButton, canvas
+        );
+        layout.setAlignment(Pos.CENTER);
+
+        // Set scene and stage
+        Scene scene = new Scene(layout, 400, 500);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Resume Creator");
+        primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
