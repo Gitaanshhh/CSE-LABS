@@ -3,19 +3,15 @@
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.canvas.*;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Q2ResumeApp extends Application {
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage s) {
         TextField nameField = new TextField();
         nameField.setPromptText("Enter your name");
 
@@ -65,9 +61,9 @@ public class Q2ResumeApp extends Application {
         layout.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(layout, 400, 500);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Resume Creator");
-        primaryStage.show();
+        s.setScene(scene);
+        s.setTitle("Resume Creator");
+        s.show();
     }
 
     public static void main(String[] args) {
