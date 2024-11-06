@@ -16,7 +16,6 @@ public class Q2ResumeApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        // Input fields for personal details
         TextField nameField = new TextField();
         nameField.setPromptText("Enter your name");
 
@@ -26,27 +25,21 @@ public class Q2ResumeApp extends Application {
         TextField phoneField = new TextField();
         phoneField.setPromptText("Enter your phone number");
 
-        // Checkboxes for languages
         CheckBox englishCheckbox = new CheckBox("English");
         CheckBox frenchCheckbox = new CheckBox("French");
         CheckBox germanCheckbox = new CheckBox("German");
         CheckBox spanishCheckbox = new CheckBox("Spanish");
 
-        // Submit button
         Button submitButton = new Button("Submit");
 
-        // Canvas for displaying resume
         Canvas canvas = new Canvas(400, 300);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        // Action on Submit button click
         submitButton.setOnAction(e -> {
-            // Retrieve values from input fields and checkboxes
             String name = nameField.getText();
             String email = emailField.getText();
             String phone = phoneField.getText();
 
-            // Get selected languages
             StringBuilder languages = new StringBuilder();
             if (englishCheckbox.isSelected()) languages.append("English ");
             if (frenchCheckbox.isSelected()) languages.append("French ");
@@ -62,7 +55,6 @@ public class Q2ResumeApp extends Application {
             gc.fillText("Languages: " + languages.toString(), 50, 150);
         });
 
-        // Layout
         VBox layout = new VBox(10,
                 new Label("Create Your Resume"),
                 nameField, emailField, phoneField,
@@ -72,7 +64,6 @@ public class Q2ResumeApp extends Application {
         );
         layout.setAlignment(Pos.CENTER);
 
-        // Set scene and stage
         Scene scene = new Scene(layout, 400, 500);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Resume Creator");
