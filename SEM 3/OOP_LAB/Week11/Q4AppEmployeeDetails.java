@@ -1,4 +1,5 @@
 // Q4
+
 import javafx.scene.control.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -42,8 +43,7 @@ public class Q4AppEmployeeDetails extends Application {
 		root.setPadding(new Insets(25, 25, 25, 25));
 
 		//Making Labels
-		Label eIdL = new Label();
-		eIdL.setText("E ID: ");
+		Label eIdL = new Label("E ID: ");
 		///Col, Row
 		root.add(eIdL, 0, 1);
 
@@ -51,26 +51,21 @@ public class Q4AppEmployeeDetails extends Application {
 		eIdF.setPromptText("000");
 		root.add(eIdF, 1, 1);
 
-		Label nameL = new Label();
-		nameL.setText("Name : ");
-		///Col, Row
+		Label nameL = new Label("Name : ");
 		root.add(nameL, 0, 2);
 
 		TextField nameF = new TextField();
 		nameF.setPromptText("Gitaansh");
 		root.add(nameF, 1, 2);
 
-		Label designationL = new Label();
-		designationL.setText("Designation : ");
-		///Col, Row
+		Label designationL = new Label("Designation : ");
 		root.add(designationL, 0, 3);
 
 		TextField designationF = new TextField();
 		designationF.setPromptText("Software Engineer");
 		root.add(designationF, 1, 3);
 
-		Label basicPayL = new Label();
-		basicPayL.setText("Basic Pay : ");
+		Label basicPayL = new Label("Basic Pay : ");
 		root.add(basicPayL, 0, 4);
 
 		TextField basicPayF = new TextField();
@@ -79,15 +74,6 @@ public class Q4AppEmployeeDetails extends Application {
 
 		Button compute = new Button("Compute");
 		root.add(compute, 2, 4);
-
-		Label eIdDisplayL = new Label();
-		root.add(eIdDisplayL, 0, 5);	
-
-		Label nameDisplayL = new Label();
-		root.add(nameDisplayL, 0, 6);	
-
-		Label designationDisplayL = new Label();
-		root.add(designationDisplayL, 0, 7);	
 
 		Label netSalary = new Label();
 		root.add(netSalary, 0, 8);	
@@ -100,9 +86,16 @@ public class Q4AppEmployeeDetails extends Application {
 				String designation = designationF.getText();
 				Employee emp = new Employee(bpay, name, designation, id);
 				emp.compute();
-				eIdDisplayL.setText("E ID : "+emp.empID);
-				nameDisplayL.setText("Name : "+emp.name);
-				designationDisplayL.setText("Designation : "+emp.designation);
+				
+				Label eIdDisplayL = new Label("E ID : "+emp.empID);
+				root.add(eIdDisplayL, 0, 5);	
+				
+				Label nameDisplayL = new Label("Name : "+emp.name);
+				root.add(nameDisplayL, 0, 6);	
+
+				Label designationDisplayL = new Label("Designation : "+emp.designation);
+				root.add(designationDisplayL, 0, 7);	
+
 				netSalary.setText("Net Salary : "+emp.netSalary);
 			}
 			catch (NumberFormatException exc){
