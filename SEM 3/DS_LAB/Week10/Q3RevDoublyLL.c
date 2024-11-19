@@ -46,25 +46,74 @@ void rev(Node **head){
 	*head = prev;   
 }
 
+void shift(Node **head, int k) {
+    if (head == NULL || *head == NULL || k <= 0) {
+        return;
+    }
+    // length of the list
+    Node *current = *head;
+    int length = 0;
+    while (current != NULL) {
+        length++;
+        current = current->rlink;
+    }
+    // Normalize k to be within list length
+    k = k % length;
+    if (k == 0) {
+        return;
+    }
+    
+    // Find the new head (kth node from start)
+    current = *head;
+    Node *prev = NULL;
+    for (int i = 0; i < k && current != NULL; i++) {
+        prev = current;
+        current = current->rlink;
+    }
+    
+    if (current == NULL) {
+        return;  // Invalid k value
+    }
+    
+    Node *oldHead = *head;
+    
+    // Find the last node
+    Node *last = *head;
+    while (last->rlink != NULL) {
+        last = last->rlink;
+    }
+
+    if (prev != NULL) {
+        prev->rlink = NULL;        // Break the link at k
+        last->rlink = oldHead;     // Connect last node to old head
+        oldHead->llink = last;     // Connect old head's left to last node
+        current->llink = NULL;     // New head's left should be NULL
+        *head = current;           // Update head to new position
+    }
+}
+
 int main(){
 	Node *head = NULL;
 	int ch, ele;
-	printf("1. Insert Rear, 2. Reverse, 3. Display, 4. Exit");
+	printf("1. Insert Rear, 2. Reverse, 3. Display, 4.Shift 5. Exit\n");
 	do {
-		printf("\nEnter your choice: ");
+		printf("Enter your choice: ");
 		scanf("%d",&ch);
-		switch(ch)
-		{
+		switch(ch) {
 			case 1:
 				printf("Enter the Element:");
 				scanf("%d",&ele);
 				insertr(&head,ele);
 				break;
-			case 2: rev(&head);
-			case 3: display(&head);
-			case 4: break;
+			case 2: rev(&head); break;
+			case 3: display(&head); break;
+			case 4: 
+			    printf("Enter k:");
+				scanf("%d",&ele);
+				shift(&head, ele);
+			case 5: break;
 			default: printf("Wrong choice.");
 		}
-	} while(ch!=4);
+	} while(ch!=5);
 	return 0;
 }
