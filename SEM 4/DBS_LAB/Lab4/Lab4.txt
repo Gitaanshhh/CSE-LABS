@@ -48,6 +48,8 @@ with tempTable(salary) as (select AVG(salary) from (select SUM(salary) salary fr
 update student set dept_name='IT' where dept_name='Comp. Sci.';
 
 /* 16. Increase salaries of instructors whose salary is over $100,000 by 3%, and all others receive a 5% raise */
+UPDATE instructor SET salary = CASE WHEN salary > 100000 THEN salary * 1.03 ELSE salary * 1.05 END;
+--OR (Incomplete - cannot use 2 sets)--
 update instructor set salary = 1.03*salary where salary > 100000 and set salary = 1.05*salary where salary < 100000;
 
 --  --
