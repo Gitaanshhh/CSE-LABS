@@ -1,14 +1,8 @@
 /*
-2). Write a program for depth-first search of a graph. 
-Identify the push and pop order of vertices.
+3). Write a program for breadth-first search of a graph. 
 */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "GraphFuns.h"
-
-#define max 100
-
 
 typedef struct queue{
     int items[max];
