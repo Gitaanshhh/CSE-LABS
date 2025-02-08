@@ -12,36 +12,39 @@ Reset_Handler
 	MOV R1, #0 ;loop counter i
 	ADD R7, R0, #36 ;index for last element
 	
-	;storing data in array (10 to 1 descending order)
 	MOV R9, #10
-loop	
+loop			;storing data in array (10 to 1 descending order)
 	STR R9, [R0], #4
 	SUBS R9, #1
 	BNE loop
-	
-	LDR R0, =ARR
 
+	LDR R0, =ARR ;resetting pointer
 	;selection sort starts here
-loopI	LDR R3, [R0]
-		MOV R4, R0
-		MOV R6, R0
-loopJ	ADD R6, #4
-		CMP R6, R7
-		BGT exitloopJ
-		LDR R5, [R6]
-		CMP R5, R3
-		BGT skip
-		MOV R3, R5
-		MOV R4, R6 ;storing index for smallest found
-skip	B loopJ
-exitloopJ	LDR R8, [R0]
-			STR R3, [R0]
-			STR R8, [R4]
-			ADD R0, #4
-			CMP R0, R7
-			BEQ STOP
-			B loopI
-STOP B STOP
+loopI	
+	LDR R3, [R0]	; min Element
+	MOV R4, R0	; min Index
+	MOV R6, R0	; j
+loopJ	
+	ADD R6, #4
+	CMP R6, R7	; if j>n
+	BGT exitloopJ
+	LDR R5, [R6]	;arr[j]
+	CMP R5, R3	;if > skip else swap
+	BGT skip
+	MOV R3, R5	;updating min element
+	MOV R4, R6 	;updating min index
+ skip
+	B loopJ
+exitloopJ
+	LDR R8, [R0]	; temp reg 
+	STR R3, [R0]	;swapping r3-> min ele
+	STR R8, [R4]	;r4 -> min index
+	ADD R0, #4	;shortening array
+	CMP R0, R7	;if only 1 ele left stop
+	BEQ STOP
+	B loopI
+STOP 
+	B STOP
 	AREA mydata, DATA, READWRITE
 ARR DCD 1
 	END
