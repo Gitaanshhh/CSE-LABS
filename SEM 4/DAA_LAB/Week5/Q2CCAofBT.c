@@ -5,79 +5,63 @@ The CCA of n1 and n2 in T is the shared ancestor of n1 and n2 that is located fa
 For Example: Consider the following BT
 */
 
+
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct node {
-    int val;
-    struct node *left;
-    struct node *right;
+typedef struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
 } Node;
 
-Node *createNode(int val) {
-    Node *newNode = (Node *)malloc(sizeof(Node));
-    newNode->val = val;
-    newNode->left = NULL;
-    newNode->right = NULL;
-    return newNode;
+Node* newNode(int data) {
+    Node* node = (Node*)malloc(sizeof(Node));
+    node->data = data;
+    node->left = node->right = NULL;
+    return node;
 }
 
-int max(int a, int b) {
-    return a > b ? a : b;
+Node* findCCA(Node* root, int n1, int n2) {
+    // Base case: if root is NULL or root is one of the nodes
+    if (root == NULL || root->data == n1 || root->data == n2)
+        return root;
+
+    Node* left = findCCA(root->left, n1, n2);
+    Node* right = findCCA(root->right, n1, n2);
+
+    if (left != NULL && right != NULL)
+        return root;
+
+    return (left != NULL) ? left : right;
 }
 
-int height(Node *root) {
-    if (root == NULL) {
-        return 0;
-    }
-    return 1 + max(height(root->left), height(root->right));
-}
-
-int diameter(Node *root, int *height) {
-    if (root == NULL) {
-        *height = 0;  // Height of an empty tree is 0
-        return 0;     // Diameter of an empty tree is 0
-    }
-
-    int leftHeight = 0, rightHeight = 0;
-
-    int leftDiameter = diameter(root->left, &leftHeight);
-    int rightDiameter = diameter(root->right, &rightHeight);
-
-    *height = max(leftHeight, rightHeight) + 1;
-
-    return max(leftHeight + rightHeight + 1, max(leftDiameter, rightDiameter));
-}
-
-void freeTree(Node *root) {
-    if (root == NULL) {
-        return;
-    }
-    freeTree(root->left);
-    freeTree(root->right);
-    free(root);
+void printCCA(Node* root, int n1, int n2) {
+    Node* ancestor = findCCA(root, n1, n2);
+    if (ancestor != NULL)
+        printf("The Closest Common Ancestor of %d and %d is %d\n", n1, n2, ancestor->data);
+    else
+        printf("No Common Ancestor found.\n");
 }
 
 int main() {
-    // Create the tree manually
-    Node *root = createNode(1);
-    root->left = createNode(2);
-    root->right = createNode(3);
-    root->left->left = createNode(4);
-    root->left->right = createNode(5);
-    root->right->right = createNode(6);
-    root->left->right->left = createNode(7);
-    root->left->right->right = createNode(8);
-    root->right->right->right = createNode(9);
-    root->right->right->right->left = createNode(10);
-    root->right->right->right->right = createNode(11);
-    root->right->right->right->left->left = createNode(12);
-    root->right->right->right->left->right = createNode(13);
+    Node* root = newNode(20);
+    root->left = newNode(8);
+    root->right = newNode(22);
+    root->left->left = newNode(4);
+    root->left->right = newNode(12);
+    root->left->right->left = newNode(10);
+    root->left->right->right = newNode(14);
+    root->right->right = newNode(25);
 
-    int height = 0;
-    printf("Diameter of the given binary tree is %d\n", diameter(root, &height));
+    int n1 = 10, n2 = 14;
+    printCCA(root, n1, n2);  // Output: The Closest Common Ancestor of 10 and 14 is 12
 
-    freeTree(root);
+    n1 = 4, n2 = 14;
+    printCCA(root, n1, n2);  // Output: The Closest Common Ancestor of 4 and 14 is 8
+
+    n1 = 8, n2 = 25;
+    printCCA(root, n1, n2);  // Output: The Closest Common Ancestor of 8 and 25 is 20
 
     return 0;
 }
