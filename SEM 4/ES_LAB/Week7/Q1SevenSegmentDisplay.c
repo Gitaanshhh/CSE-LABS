@@ -1,29 +1,37 @@
 #include <LPC17xx.h>
 
-unsigned char tohex[10] = {0x3F, 0X06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F};
-unsigned int i=0, j=0;
+// Array for converting digits 0-9 to their 7-segment display encoding
+unsigned char tohex[10] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F};
 
-long int arr[4] = {9,9,9,9};
+// Array to represent the digits we want to display ("1234")
+unsigned char digits[4] = {1, 2, 3, 4};
 
-int main(){
-	SystemInit();
-	SystemCoreClockUpdate();
-	
-	LPC_GPIO0->FIODIR |= 0xFF0;
-	LPC_GPIO1->FIODIR |= 0xF<<23;
-	
-	for(arr[3]=0; ; arr[3]--){
-		for(arr[2]=9; arr[1]>=0; arr[1]--)
-			for(arr[0]=9; arr[0]>=0;arr[0]--){
-				for(i=0; i<4; i++){
-					LPC_GPIO1->FIOPIN=i<<23;
-					LPC_GPIO0->FIOPIN=tohex[arr[i]]<<4;
-					for(j=0; j<100000; j++);
-				}
-				for(j=0; j<100000; j++);
-				LPC_GPIO0->FIOCLR|=0xFF0;
-			}
-		if(arr[3]==0)
-			arr[3] = 10;
-	}
+unsigned int i = 0, j = 0;
+
+int main() {
+    SystemInit();
+    SystemCoreClockUpdate();
+
+    // Configure GPIO pins for the 7-segment displays
+    // GPIO0 pins 0 to 7 will be used for the 7-segment segment control (8 bits)
+    LPC_GPIO0->FIODIR |= 0xFF0;  // Set bits 4-11 as output for the segments of 7-segment
+
+    // GPIO1 pins 23 to 26 will be used for digit selection (4 bits for 4 digits)
+    LPC_GPIO1->FIODIR |= 0xF << 23;  // Set bits 23-26 as output for selecting digits
+    
+    while(1) {
+        for(i = 0; i < 4; i++) {
+            // Select the current digit (activate the appropriate digit by shifting 1 to the correct bit)
+            LPC_GPIO1->FIOPIN = (1 << (i + 23 - 1));  // Activate one of the four digits (0-3)
+            
+            // Send the corresponding 7-segment pattern for the current digit
+            LPC_GPIO0->FIOPIN = tohex[digits[i]] << 4;  // Shift the 7-segment pattern for the current digit
+
+            for(j = 0; j < 100000; j++);
+
+            // Clear the 7-segment segments before displaying the next digit
+            // LPC_GPIO0->FIOCLR |= 0xFF0;  // Turn off all segments
+        }
+    }
+    return 0;
 }
