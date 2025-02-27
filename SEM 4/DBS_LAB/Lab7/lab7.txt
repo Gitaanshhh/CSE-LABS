@@ -1,0 +1,171 @@
+-- EXAMPLES --
+
+--  A PL/SQL block to display ‘Hello, World’. --
+
+SET SERVEROUTPUT ON
+declare
+	message varchar2 (20) :='Hello, World!';
+begin
+	dbms_output.put_line(message);
+end;
+/
+
+--  A PL/SQL block to display the grade for given letter grade. --
+
+DECLARE 
+	grade CHAR(1); 
+BEGIN 
+	grade := '&g'; 
+	IF grade = 'A' THEN 
+ 		DBMS_OUTPUT.PUT_LINE('Excellent'); 
+	ELSIF grade = 'B' THEN 
+ 		DBMS_OUTPUT.PUT_LINE('Very Good'); 
+	ELSIF grade = 'C' THEN 
+		DBMS_OUTPUT.PUT_LINE('Good'); 
+	ELSIF grade = 'D' THEN 
+ 		DBMS_OUTPUT. PUT_LINE('Fair'); 
+	ELSIF grade = 'F' THEN 
+ 		DBMS_OUTPUT.PUT_LINE('Poor'); 
+	ELSE 
+ 		DBMS_OUTPUT.PUT_LINE('No such grade'); 
+	END IF; 
+END; 
+/
+
+
+/* The following PL/SQL block traces the control flow in a simple LOOP 
+construct.*/
+
+declare
+	x number := 0;
+begin
+	loop
+		dbms_output.put_line('Inside loop: x = '||to_char(x));
+		x := x+1;
+		if x>3 then exit;
+		end if;
+	end loop;
+	dbms_output.put_line('After loop: x = '||to_char(x));
+end;
+/
+
+-- The following PL/SQL block traces the control flow in a while LOOP. --
+
+declare
+	x number := 0;
+begin
+	while x<4
+          loop
+		dbms_output.put_line('Inside loop: x = '||to_char(x));
+		x := x+1;
+		if x>3 then exit;
+		end if;
+	  end loop;
+	dbms_output.put_line('After loop: x = '||to_char(x));
+end;
+/
+
+-- The following PL/SQL block traces the control flow in a FOR LOOP. --
+
+begin
+	DBMS_OUTPUT.PUT_LINE ('lower_bound < upper_bound'); 
+ 	FOR i IN 1..3 LOOP 
+ 		 DBMS_OUTPUT.PUT_LINE (i); 
+ 	END LOOP; 
+	DBMS_OUTPUT.PUT_LINE ('lower_bound = upper_bound'); 
+ 	FOR i IN 2..2 LOOP 
+ 		 DBMS_OUTPUT.PUT_LINE (i); 
+ 	END LOOP; 
+ 
+ 	DBMS_OUTPUT.PUT_LINE ('lower_bound > upper_bound'); 
+ 	FOR i IN 3..1 LOOP 
+  		DBMS_OUTPUT.PUT_LINE (i); 
+ 	END LOOP; 
+END; 
+/ 
+
+--  A PL/SQL block to check whether a given number is prime number. --
+
+declare
+	p varchar2 (30);
+	n pls_integer := 37;
+begin
+	for j in 2..round(sqrt(n)) loop
+		if n mod j = 0 then
+			p := ' is not a prime number';
+			goto print_now;
+		end if;
+	end loop;
+	p := ' is a prime number';
+<<print_now>>
+	dbms_output.put_line(to_char(n)||p);
+end; 
+/ 
+
+/*  Update all accounts with balance less than 0 to 0 in account(account_number, 
+balance) table, populated with {(1, 100); (2, 3000); (3, 500)} */
+
+create table account (
+	account_number numeric,
+	balance numeric);
+
+insert into account values (1, 100);
+insert into account values (2, 3000);
+insert into account values (3, 500);
+
+begin
+	update account set balance = 0 where balance < 0;
+exception 
+	when no_data_found then dbms_output.put_line('No rows found');
+end;
+/
+
+/*  Validate the resultant balance before supporting withdrawal of money from 
+the account table such that a min. of 500 is maintained.  */
+
+declare 
+	insufficient_balance Exception;
+	amount account.balance%type;
+	temp account.balance%type;
+	ANumber account.account_number%type;
+begin
+	ANumber := &Number;
+	Amount := &Amount;
+	select balance into temp from account where account_number = ANumber;
+	temp := temp - Amount;
+	if temp >= 500 then
+		update account set balance = temp where account_number = ANumber;
+	else 
+		raise insufficient_balance;
+	end if;
+exception 
+	when insufficient_balance then
+		dbms_output.put_line('Insufficient Balance!');
+	when others then
+		dbms_output.put_line('Error');
+end;
+/
+
+
+-- Lab Exercise --
+
+create table studentTable (
+	RollNo numeric,
+	GPA numeric);
+
+insert into studentTable values (1, 5.8);
+insert into studentTable values (2, 6.5);
+insert into studentTable values (3, 3.4);
+insert into studentTable values (4, 7.8);
+insert into studentTable values (5, 9.5);
+
+-- 1. Write a PL/SQL block to display the GPA of given student. --
+declare
+	roll studentTable.RollNo%type;
+	gp studentTable.GPA%type;
+begin
+	roll := &RollNum;
+	select gpa into gp from studentTable where rollNo=roll;
+	dbms_output.put_line(gp);
+end;
+/
