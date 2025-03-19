@@ -54,11 +54,11 @@ int main(void) {
 		
 		for(i=0; i<2000; i++); 
 
-		lcd_comdata(0x89, 0); 
+		lcd_comdata(0x8B, 0); 
 		delay_lcd(800); 
 		lcd_puts(&vtg[0]); 
 
-		lcd_comdata(0xC8, 0); 
+		lcd_comdata(0xCC, 0); 
 		delay_lcd(800); 
 		lcd_puts(&dval[0]);
 		
