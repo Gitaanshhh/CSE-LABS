@@ -169,3 +169,188 @@ begin
 	dbms_output.put_line(gp);
 end;
 /
+
+/*
+2. Write a PL/SQL block to display the letter grade(0-4: F; 4-5: E; 5-6: D; 6-7: C; 7-8: B; 8-9: A; 9-10: A+} of given student. 
+*/
+
+SET SERVEROUTPUT ON
+
+DECLARE
+    RNO StudentTable.RollNo%TYPE;
+    G StudentTable.GPA%TYPE;
+BEGIN
+    RNO := '&rno';
+    SELECT GPA
+    INTO G
+    FROM StudentTable
+    WHERE RollNo = RNO;
+    IF G > 0 AND G <= 4 THEN
+        DBMS_OUTPUT.PUT_LINE('Grade is F');
+    ELSIF G > 4 AND G <= 5 THEN
+        DBMS_OUTPUT.PUT_LINE('Grade is E');
+    ELSIF G > 5 AND G <= 6 THEN
+        DBMS_OUTPUT.PUT_LINE('Grade is D');
+    ELSIF G > 6 AND G <= 7 THEN
+        DBMS_OUTPUT. PUT_LINE('Grade is C');
+    ELSIF G > 7 AND G <= 8 THEN
+        DBMS_OUTPUT.PUT_LINE('Grade is B');
+    ELSIF G > 8 AND G <= 9 THEN
+        DBMS_OUTPUT.PUT_LINE('Grade is A');
+    ELSIF G > 9 AND G <= 10 THEN
+        DBMS_OUTPUT.PUT_LINE('Grade is A+');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('No such grade');
+    END IF;
+END;
+/
+
+/*
+3. Input the date of issue and date of return for a book. Calculate and display the fine with the appropriate message using a PL/SQL block. The fine is charged as per the table.  
+*/
+SET SERVEROUTPUT ON
+
+DECLARE
+    DOI DATE;
+    DOR DATE;
+    Days NUMERIC(3);
+    Fine NUMERIC(6);
+BEGIN
+    DOI := TO_DATE('&DateOfIssue','DD-MM-YY');
+    DOR := TO_DATE('&DateOfReturn','DD-MM-YY');
+    Days := (DOR - DOI);
+    IF Days >= 0 AND Days <= 7 THEN
+        DBMS_OUTPUT.PUT_LINE('Fine is NIL');
+    ELSIF Days >= 8 AND Days <= 15 THEN
+        Fine := Days * 1;
+        DBMS_OUTPUT.PUT_LINE('Fine is ' || Fine);
+    ELSIF Days >= 16 AND Days <= 30 THEN
+        Fine := Days * 2;
+        DBMS_OUTPUT.PUT_LINE('Fine is ' || Fine);
+    ELSIF Days > 30 THEN
+        Fine := Days * 5;
+        DBMS_OUTPUT.PUT_LINE('Fine is ' || Fine);
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Error');
+    END IF;
+END;
+/
+
+/* 
+4. Write a PL/SQL block to print the letter grade of all the students
+(RollNo: 1 - 5). 
+*/
+SET SERVEROUTPUT ON
+
+DECLARE
+    I NUMERIC(1);
+    G StudentTable.GPA%TYPE;
+BEGIN
+    I := 1;
+    LOOP
+        SELECT GPA
+        INTO G
+        FROM StudentTable
+        WHERE RollNo = I;
+        IF G > 0 AND G < 4 THEN
+            DBMS_OUTPUT.PUT_LINE('Grade is F');
+        ELSIF G > 4 AND G < 5 THEN
+            DBMS_OUTPUT.PUT_LINE('Grade is E');
+        ELSIF G > 5 AND G < 6 THEN
+            DBMS_OUTPUT.PUT_LINE('Grade is D');
+        ELSIF G > 6 AND G < 7 THEN
+            DBMS_OUTPUT. PUT_LINE('Grade is C');
+        ELSIF G > 7 AND G < 8 THEN
+            DBMS_OUTPUT.PUT_LINE('Grade is B');
+        ELSIF G > 8 AND G < 9 THEN
+            DBMS_OUTPUT.PUT_LINE('Grade is A');
+        ELSIF G > 9 AND G < 10 THEN
+            DBMS_OUTPUT.PUT_LINE('Grade is A+');
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('No such grade');
+        END IF;
+        I := I + 1;
+        IF I > 5 THEN EXIT;
+        END IF;
+    END LOOP;
+END;
+/
+
+
+/* 
+5. Alter StudentTable by appending an additional column LetterGrade Varchar2(2). 
+Then write a PL/SQL block  to update the table with letter grade of each student. 
+*/
+
+ALTER TABLE StudentTable ADD LetterGrade VARCHAR2(2);
+
+SET SERVEROUTPUT ON
+
+DECLARE
+    G StudentTable.GPA%TYPE;
+    N NUMBER;
+    I NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO N FROM StudentTable;
+    I := 1;
+    WHILE I <= N
+    LOOP
+        SELECT GPA
+        INTO G
+        FROM StudentTable
+        WHERE RollNo = I;
+        IF G > 0 AND G <= 4 THEN
+            UPDATE StudentTable SET LetterGrade = 'F' WHERE RollNo = I;
+        ELSIF G > 4 AND G <= 5 THEN
+            UPDATE StudentTable SET LetterGrade = 'E' WHERE RollNo = I;
+        ELSIF G > 5 AND G <= 6 THEN
+            UPDATE StudentTable SET LetterGrade = 'D' WHERE RollNo = I;
+        ELSIF G > 6 AND G <= 7 THEN
+            UPDATE StudentTable SET LetterGrade = 'C' WHERE RollNo = I;
+        ELSIF G > 7 AND G <= 8 THEN
+            UPDATE StudentTable SET LetterGrade = 'B' WHERE RollNo = I;
+        ELSIF G > 8 AND G <= 9 THEN
+            UPDATE StudentTable SET LetterGrade = 'A' WHERE RollNo = I;
+        ELSIF G > 9 AND G <= 10 THEN
+            UPDATE StudentTable SET LetterGrade = 'A+' WHERE RollNo = I;
+        END IF;
+        I := I + 1;
+    END LOOP;
+END;
+/
+
+/*
+6. Write a PL/SQL block to find the student with max. GPA without using aggregate 
+function. 
+*/
+SET SERVEROUTPUT ON 
+
+DECLARE
+    G StudentTable.GPA%TYPE;
+    MAXG StudentTable.GPA%TYPE;
+    N NUMBER;
+    I NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO N FROM StudentTable;
+    I := 1;
+    MAXG := 0;
+    WHILE I <= N
+    LOOP
+        SELECT GPA
+        INTO G
+        FROM StudentTable
+        WHERE RollNo = I;
+        IF G > MAXG THEN
+            MAXG := G;
+        END IF;
+        I := I + 1;
+    END LOOP;
+    SELECT RollNo INTO I FROM StudentTable WHERE GPA = MAXG;
+    DBMS_OUTPUT.PUT_LINE('Student with max. GPA is: Roll Number ' || I);
+END;
+/
+
+/*
+7. Write a PL/SQL block to print the letter grade of all the students
+(RollNo: 1 - 5) using GOTO.
+*/
