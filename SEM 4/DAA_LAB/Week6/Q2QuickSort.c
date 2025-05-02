@@ -12,16 +12,23 @@ void swap(int* a, int* b) {
 }
 
 int partition(int arr[], int low, int high) {
-    int pivot = arr[low]; // Pivot is the smallest element (first element)
-    int i = low;
+    int pivot = arr[low];  // pivot is the first element
+    int i = low + 1;
+    int j = high;
 
-    for (int j = low + 1; j <= high; j++)
-        if (arr[j] < pivot) {
+    while (i <= j) {
+        while (i <= high && arr[i] <= pivot)
             i++;
+        while (arr[j] > pivot)
+            j--;
+
+        if (i < j)
             swap(&arr[i], &arr[j]);
-        }
-    swap(&arr[i], &arr[low]); // Place pivot in the correct position
-    return i;
+    }
+
+    // Place pivot in its correct position
+    swap(&arr[low], &arr[j]);
+    return j;
 }
 
 void quickSort(int arr[], int low, int high) {
