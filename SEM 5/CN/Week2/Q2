@@ -1,0 +1,60 @@
+Q2
+
+To check 
+show ip
+
+To save
+save
+
+Administration
+PC 1 : ip 192.168.2.3/24 192.168.2.1
+PC 2 : ip 192.168.2.2/24 192.168.2.1
+
+Accounts and Finance
+PC 3 : ip 192.168.3.3/24 192.168.3.1
+PC 4 : ip 192.168.3.2/24 192.168.3.1
+
+IT
+PC 5 : ip 192.168.4.3/24 192.168.4.1
+PC 6 : ip 192.168.4.2/24 192.168.4.1
+
+Database
+PC 7 : ip 192.168.1.100/24 192.168.1.1
+
+
+To check
+Router# show run
+
+To save config 
+Router(config)# do wr
+
+
+
+Router : 
+
+Router> enable
+Router# configure terminal
+
+Router(config)# interface fastethernet0/0
+Router(config-if)# ip address 192.168.2.1 255.255.255.0
+Router(config-if)# no shutdown
+Router(config-if)# exit
+
+Router(config)# interface fastethernet0/1
+Router(config-if)# ip address 192.168.3.1 255.255.255.0
+Router(config-if)# no shutdown
+Router(config-if)# exit
+
+Router(config)# interface fastethernet2/0
+Router(config-if)# ip address 192.168.4.1 255.255.255.0
+Router(config-if)# no shutdown
+Router(config-if)# exit
+
+Router(config)# interface fastethernet3/0
+Router(config-if)# ip address 192.168.1.1 255.255.255.0
+Router(config-if)# no shutdown
+Router(config-if)# exit
+
+Router(config)# exit
+Router# copy running-config startup-config
+
