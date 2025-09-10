@@ -17,22 +17,35 @@ Client Requirements:
 
 #define PORT 10200
 
+#define KEY 8
+
 int sockfd;
+
+void xor_encrypt_decrypt(char *msg) {
+    for (int i = 0; msg[i] != '\0'; i++) {
+        msg[i] = msg[i] ^ KEY;
+    }
+}
 
 void *receive_messages(void *arg) {
     char buffer[1024];
     int n;
     while ((n = recv(sockfd, buffer, sizeof(buffer) - 1, 0)) > 0) {
         buffer[n] = '\0';
+        xor_encrypt_decrypt(buffer);
         printf("\n[Chat] %s\n> ", buffer);
         fflush(stdout);
     }
+    if (n == 0) printf("\n[Client] Server has closed the connection. Exiting.\n");
+    else perror("\n[Client] recv failed");
+	close(sockfd);
+	exit(0);  // Exit client process
     return NULL;
 }
 
 int main() {
     struct sockaddr_in servaddr;
-    char msg[1024];
+    char msg[1024], username[1024];
     pthread_t recv_thread;
 
     if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
@@ -40,9 +53,13 @@ int main() {
         exit(1);
     }
 
+	printf("Username : ");
+	fgets(username, sizeof(username), stdin);
+	username[strcspn(username, "\n")] = '\0';
+	
     servaddr.sin_family = AF_INET;
     servaddr.sin_port = htons(PORT);
-    servaddr.sin_addr.s_addr = inet_addr("172.31.1.38"); // or server IP
+    servaddr.sin_addr.s_addr = inet_addr("172.16.48.159"); // or server IP
 
     if (connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) < 0) {
         perror("connect failed");
@@ -59,7 +76,10 @@ int main() {
         fgets(msg, sizeof(msg), stdin);
         msg[strcspn(msg, "\n")] = '\0';
         if (strlen(msg) > 0) {
-            send(sockfd, msg, strlen(msg), 0);
+			char msgFinal[1100];
+			snprintf(msgFinal, sizeof(msgFinal), "%s : %s", username, msg);
+			xor_encrypt_decrypt(msgFinal);
+            send(sockfd, msgFinal, strlen(msgFinal), 0);
         }
     }
 
