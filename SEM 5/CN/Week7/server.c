@@ -20,6 +20,8 @@ Server Requirements:
 #define PORT 10200
 #define MAX_CLIENTS 10
 
+#define KEY 8
+
 int client_sockets[MAX_CLIENTS];
 
 void broadcast_message(int sender_sock, char *msg) {
@@ -29,6 +31,13 @@ void broadcast_message(int sender_sock, char *msg) {
         }
     }
 }
+
+void xor_encrypt_decrypt(char *msg) {
+    for (int i = 0; msg[i] != '\0'; i++) {
+        msg[i] = msg[i] ^ KEY;
+    }
+}
+
 
 int main() {
     int server_fd, new_sock, max_sd, sd, activity, valread;
@@ -113,12 +122,13 @@ int main() {
                     client_sockets[i] = 0;
                 } else {
                     buffer[valread] = '\0';
-                    printf("Message from client %d: %s\n", sd, buffer);
-
-                    char broadcast_buf[1100];
-                    snprintf(broadcast_buf, sizeof(broadcast_buf), "Client %d: %s", sd, buffer);
-
-                    broadcast_message(sd, broadcast_buf);
+                    printf("Encrypted Message from client %d: %s\n", sd, buffer);
+					xor_encrypt_decrypt(buffer);
+					printf("Decrypted Message from client %d: %s\n", sd, buffer);
+                    //char broadcast_buf[1100];
+                    //snprintf(broadcast_buf, sizeof(broadcast_buf), "Client %d %s", sd, buffer);
+					xor_encrypt_decrypt(buffer);
+                    broadcast_message(sd, buffer);
                 }
             }
         }
