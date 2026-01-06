@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Share your Winter Vacation Videos</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="upper-div">
+    <h1>Share Your Travels</h1>
+  </div>
+
+   <div class="lower-div">
+    <p class="html-video">HTML Video</p>
+    <div class="video-container">
+      <div class="video-item">
+        <video width="320" height="240" controls>
+          <source src="/home/WP_B2/Desktop/WPL/Week1/AssignmentFiles/Media/2619-865412755.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <p class="video-description">Winter Wonderland 1</p>
+      </div>
+
+      <div class="video-item">
+        <video width="320" height="240" controls>
+          <source src="/home/WP_B2/Desktop/WPL/Week1/AssignmentFiles/Media/305660_small.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <p class="video-description">Winter Wonderland 2</p>
+      </div>
+
+      <div class="video-item">
+        <video width="320" height="240" controls>
+          <source src="/home/WP_B2/Desktop/WPL/Week1/AssignmentFiles/Media/318885_small.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <p class="video-description">Winter Wonderland 3</p>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
