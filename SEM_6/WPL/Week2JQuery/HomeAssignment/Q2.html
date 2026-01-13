@@ -1,0 +1,64 @@
+<!--
+2. Implement the bouncing ball using animate() function.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bouncing Ball</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            const ball = $("#ball");
+
+            let x = 0;
+            let y = 0;
+
+            let dx = 4;   // pixels per step horizontally
+            let dy = 3;   // pixels per step vertically
+
+            const interval = 10;   // ms between frames
+
+            function move() {
+                const maxX = $(window).width() - ball.width();
+                const maxY = $(window).height() - ball.height();
+
+                x += dx;
+                y += dy;
+
+                // left/right
+                if (x <= 0 || x >= maxX) {
+                    dx = -dx;
+                    x = Math.max(0, Math.min(x, maxX));
+                }
+
+                // top/bottom
+                if (y <= 0 || y >= maxY) {
+                    dy = -dy;
+                    y = Math.max(0, Math.min(y, maxY));
+                }
+
+                ball.animate(
+                    { left: x + "px", top: y + "px" },
+                    interval,
+                    "linear",
+                    move
+                );
+            }
+
+            move();
+        });
+    </script>
+</head>
+
+<body>
+
+<div id="ball"
+     style="width:40px;height:40px;background:purple;border-radius:50%;
+            position:absolute;left:0;top:0;">
+</div>
+
+</body>
+</html>

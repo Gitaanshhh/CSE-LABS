@@ -1,0 +1,72 @@
+<!--
+1. Design a webpage. The page contains:
+    a. Dropdown list with HP, Nokia, Samsung, Motorola, Apple as items.
+    b. Checkbox with Mobile and Laptop as items. Textbox where you enter quantity.
+    c. There is a button with text as ‘Produce Bill’.
+On Clicking Produce Bill button, alert should be displayed with total amount.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <script type = "text/javascript" src = "https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">   
+    </script>
+    <script type = "text/javascript" language = "javascript">
+        $(document).ready(function() {
+            $("#submit").click(function() {
+
+                var selected = $("#items option:selected");
+
+                var mobilePrice = Number(selected.data("mobile"));
+                var laptopPrice = Number(selected.data("laptop"));
+
+                var mQty = Number($("#mobileQuantity").val());
+                var lQty = Number($("#laptopQuantity").val());
+
+                var total = 0;
+                var bill = "BILL\n\n";
+
+                if ($("#mobile").is(":checked")) {
+                    var mCost = mQty * mobilePrice;
+                    bill += "Mobile: " + mQty + " x " + mobilePrice + " = " + mCost + "\n";
+                    total += mCost;
+                }
+
+                if ($("#laptop").is(":checked")) {
+                    var lCost = lQty * laptopPrice;
+                    bill += "Laptop: " + lQty + " x " + laptopPrice + " = " + lCost + "\n";
+                    total += lCost;
+                }
+
+                bill += "\nTotal = " + total;
+                alert(bill);
+            })
+        })
+    </script>
+</head>
+<body>
+
+    Items
+    <select id="items">
+    <option data-mobile="5000" data-laptop="15000">HP</option>
+    <option data-mobile="4000" data-laptop="12000">Nokia</option>
+    <option data-mobile="6000" data-laptop="18000">Samsung</option>
+    <option data-mobile="4500" data-laptop="13500">Motorola</option>
+    <option data-mobile="8000" data-laptop="24000">Apple</option>
+    </select>
+    <br><br>
+
+    <input type="checkbox" id="mobile" checked> Mobile
+    <input type="number" id="mobileQuantity" value="0" min="0">
+    <br><br>    
+
+    <input type="checkbox" id="laptop" checked> Laptop
+    <input type="number" id="laptopQuantity" value="0" min="0">
+
+    <br><br>
+
+    <input type="submit" id="submit" value="Produce Bill">
+
+</body>
+</html>
