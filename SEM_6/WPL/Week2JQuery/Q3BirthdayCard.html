@@ -1,0 +1,100 @@
+<!-- 
+3. Create a web page to design a birthday card shown below.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Greeting Card</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>
+
+                Background color:
+                <select id="bg">
+                <option value="yellow">Yellow</option>
+                <option value="pink">Pink</option>
+                <option value="lightblue">Light Blue</option>
+                <option value="white">White</option>
+                </select>
+                <br><br>
+
+                Font:
+                <select id="font">
+                <option value="Verdana">Verdana</option>
+                <option value="Arial">Arial</option>
+                <option value="Times New Roman">Times</option>
+                </select>
+                <br><br>
+
+                Font size:
+                <input type="text" id="size" value="25">
+                <br><br>
+
+                Border:
+                <input type="radio" name="border" value="none" checked> None
+                <input type="radio" name="border" value="double"> Double
+                <input type="radio" name="border" value="solid"> Solid
+                <br><br>
+
+                <input type="checkbox" id="pic" checked> Add picture
+                <br><br>
+
+                Message:<br>
+                <textarea id="msg" rows="4" cols="25">Happy Birthday, and many more</textarea>
+                <br><br>
+
+                <input type="button" value="Update" onclick="updateCard()">
+
+            </td>
+
+            <td>
+
+                <div id="card" style="width:300px;height:400px;background:yellow;border:2px solid black;text-align:center;">
+                <br>
+                <h2 id="text">Happy Birthday, and many more</h2>
+                <img id="img" src="/home/WP_B2/Desktop/WPL/Week2JQuery/image.webp" width="150">
+                </div>
+
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        function updateCard() {
+        var bg = document.getElementById("bg").value;
+        var font = document.getElementById("font").value;
+        var size = document.getElementById("size").value;
+        var msg = document.getElementById("msg").value;
+        var pic = document.getElementById("pic").checked;
+
+        var borders = document.getElementsByName("border");
+        var borderStyle;
+        for (var i = 0; i < borders.length; i++) {
+            if (borders[i].checked) {
+            borderStyle = borders[i].value;
+            }
+        }
+
+        var card = document.getElementById("card");
+        var text = document.getElementById("text");
+        var img = document.getElementById("img");
+
+        card.style.background = bg;
+        card.style.border = "4px " + borderStyle + " black";
+
+        text.innerHTML = msg;
+        text.style.fontFamily = font;
+        text.style.fontSize = size + "px";
+
+        if (pic){
+            img.style.display = "block";
+            img.style.margin = "0 auto";
+        }
+        else
+            img.style.display = "none";
+        }
+    </script>
+</body>
+</html>

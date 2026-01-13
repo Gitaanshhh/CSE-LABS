@@ -1,0 +1,56 @@
+<!--
+1. Write a web page which contains table with 3 X 3 dimensions (fill some data) and one
+image. Style the rows with alternate color. Move the table and image together from right
+to left when button is clicked
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <script type = "text/javascript" src = "https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">   
+    </script>
+    <script type = "text/javascript" language = "javascript">
+        $(document).ready(function() {
+            $(".one").css("background-color","orange");
+            $(".two").css("background-color","lightblue");
+            $("#moveDiv").css({ position: "relative", left: "0px" });
+            $(".moveButton").click(function(){
+                var $ele = $("#moveDiv");
+                $ele
+                    .css("position", "relative")
+                    .animate({ left: "-=100px" }, "slow", function() {
+                        if (parseInt($ele.css("left")) < -200) {
+                            $ele.css("left", "1200px");
+                        }
+                    });
+            })
+        })
+    </script>
+</head>
+<body>
+    <div id="moveDiv">
+        <table>
+            <tr>
+                <th class="one">Company</th>
+                <th class="two">Contact</th>
+                <th class="one">Country</th>
+            </tr>
+            <tr>
+                <td class="two">Alfreds Futterkiste</td>
+                <td class="one">Maria Anders</td>
+                <td class="two">Germany</td>
+            </tr>
+            <tr>
+                <td class="one">Centro comercial Moctezuma</td>
+                <td class="two">Francisco Chang</td>
+                <td class="one">Mexico</td>
+            </tr>
+        </table>
+    
+        <img src = "/home/WP_B2/Desktop/WPL/Week2JQuery/image.webp" width="31%" alt = "Sample image" />  
+    </div>
+    <div>
+        <input type="button" class="moveButton" value="Click me!">
+    </div>
+</body>
+</html>

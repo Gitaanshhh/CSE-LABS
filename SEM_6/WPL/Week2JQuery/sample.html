@@ -1,0 +1,96 @@
+<html>
+<head>
+    <title>The jQuery Example</title>
+    
+    <script type = "text/javascript" src = "https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">   
+    </script>
+    <script type = "text/javascript" language = "javascript">
+        $(document).ready(function() {
+            $("#mydiv").click(function() {
+                alert("Hello, world!");
+                $(this).replaceWith('<div id = "mydiv"><b>JQuery is Great<b></div>');
+                // $(this).text("jQuery is Great"); //To keep the click fn
+                $("#mydiv").css("position", "relative").animate({ left: "100px" }, "slow");
+
+            });
+            $("p").css("background-color", "lightblue");
+            $("#myid").css("background-color", "orange");
+            var title = $("p").attr("title");
+            $("#divid").text(title);
+            $("#myimg").attr("src", "/home/WP_B2/Desktop/WPL/Week2JQuery/image.webp");
+            $('#button').click(function() {
+                $(this).val("Stop that!");
+            }); // end click
+            $('#btnRadioSubmit').click(function () {
+                var result = $('input[type="radio"]:checked');
+                if (result.length > 0) {
+                    $('#divResultRadio').html(result.val() + " is checked");
+                }
+                else {
+                    $('#divResultRadio').html("No radio button checked");
+                }
+            });
+            $('#btnCheckSubmit').click(function () {
+                var result = $('input[type="checkbox"]:checked');
+                if (result.length > 0) {
+                    var resultString = result.length + " checkboxe(s) checked<br/>";
+                    result.each(function () {
+                        resultString += $(this).val() + "<br/>";
+                    });
+                    $('#divResultCheck').html(resultString);
+                }
+                else {
+                    $('#divResultCheck').html("No checkbox checked");
+                }
+});
+        });
+    </script>
+</head>
+<body>
+    <div id = "mydiv">
+        Click on this to see a dialogue box.
+    </div>
+    <div>
+        <p class = "myclass">This is a paragraph.</p>
+        <p id = "myid">This is second paragraph.</p>
+        <p>This is third paragraph.</p>
+    </div>
+    <div>
+        <p title = "Bold and Brave">This is first paragraph.</p>
+        <p id = "myid">This is second paragraph.</p>
+        <div id = "divid"></div>
+        <img id = "myimg" alt = "Sample image" />
+    </div>
+    <div id = "divButton">
+        Click on this to see a dialogue box.
+        <input type="button" id="button">
+    </div>
+        <input type="radio" name="gender" value="Male">Male
+        <input type="radio" name="gender" value="Female">Female
+        <input id="btnRadioSubmit" type="submit" value="submit" />
+        
+        <br>
+        <input type="checkbox" name="skills" value="JavaScript" />JavaScript
+        <input type="checkbox" name="skills" value="jQuery" />jQuery
+        <input type="checkbox" name="skills" value="C#" />C#
+        <input type="checkbox" name="skills" value="VB" />VB
+        <br>
+        <input id="btnCheckSubmit" type="submit" value="submit" />
+        <br>
+        <div id="divResultRadio"></div>
+        <div id="divResultCheck"></div>
+    </div>
+</body>
+<script type = "text/javascript" language = "javascript">
+    $(document).ready(function() {
+        $('#divButton').hover(
+            function () {
+                $(this).css({"background-color":"red"});
+            },
+            function () {
+                $(this).css({"background-color":"blue"});
+            }
+        );
+    });
+</script>
+</html>

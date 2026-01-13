@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+</head>
+<body>
+
+    <h3>Simple Calculator</h3>
+
+    <input type="text" id="num1">
+    <input type="text" id="num2"><br><br>
+
+    <select id="op">
+        <option value="+">Add</option>
+        <option value="-">Subtract</option>
+        <option value="*">Multiply</option>
+        <option value="/">Divide</option>
+    </select>
+
+    <input type="button" value="Calculate" onclick="calc()"><br><br>
+
+    Result:
+    <input type="text" id="result">
+
+    <script>
+        function calc() {
+            var a = Number(document.getElementById("num1").value);
+            var b = Number(document.getElementById("num2").value);
+            var op = document.getElementById("op").value;
+            var res;
+
+            if (op == "+") res = a + b;
+            else if (op == "-") res = a - b;
+            else if (op == "*") res = a * b;
+            else if (op == "/") res = a / b;
+
+            document.getElementById("result").value = res;
+        }
+    </script>
+
+</body>
+</html>
