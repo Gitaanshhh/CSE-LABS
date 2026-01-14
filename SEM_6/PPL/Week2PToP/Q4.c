@@ -5,7 +5,7 @@ Q4 Read an Integer value in root the p and send it to p1, using Point to point c
 #include <mpi.h>
 
 void main(int argc, char *argv[]){
-    int ierr, rank, size, num = 7;
+    int ierr, rank, size, num;
 
     ierr = MPI_Init(&argc, &argv);
 
@@ -14,6 +14,8 @@ void main(int argc, char *argv[]){
     MPI_Status status;
 
     if (rank == 0){
+        printf("Enter a number : ");
+        scanf("%d", &num);
         MPI_Send(&num, 1, MPI_INT, rank+1, 0, MPI_COMM_WORLD);
         MPI_Recv(&num, 1, MPI_INT, size-1, 0, MPI_COMM_WORLD, &status);
         printf("The Number is : %d\n", num);
