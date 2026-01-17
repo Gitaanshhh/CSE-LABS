@@ -7,19 +7,38 @@
     <title>Sliding Text on Image</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <style>
-        .sliding-text {
+        .container {
             position: relative;
-            left: -500px;
+            width: 500px;
+            overflow: hidden;   /* hides text outside image */
+        }
+        .sliding-text {
+            position: absolute;
+            top: 50%;                       /*Centering*/
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            transform: translateY(-50%);    /*Accounts for ele height to maintain center*/
+            white-space: nowrap;            /*forces the text to stay on one line*/
         }
     </style>
     <script>
         $(document).ready(function () {
-            $(".sliding-text").animate({left: "0px"}, 2000);
+
+            function slideText() {
+                $(".sliding-text")
+                    .css({ left: "-150px" })                        // reset to start
+                    .animate({ left: "500px" }, 3000, slideText);   //using callback to make an inf loop
+            }
+
+            slideText();
         })
     </script>
 </head>
 <body>
-    <img src="~/Manipal/CSE-LABS/SEM_6/WPL/Week2JQuery/image.webp" width="500">
-    <div class="sliding-text">Sliding Text</div>
+    <div class="container">
+        <img src="C:\Users\gitaa\OneDrive\Desktop\Coding\CSE-LABS\SEM_6\WPL\Week2JQuery\image.webp" width="500">
+        <div class="sliding-text">Sliding Text</div>
+    </div>
 </body>
 </html>
