@@ -1,0 +1,102 @@
+<!-- 
+3. Create a web page using bootstrap as mentioned. Divide the page into 2 parts top and bottom, then divide the bottom into 3 parts and design each top and bottom part using different input groups, input, badges, buttons and button groups. Make the design more attractive.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap Layout</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head >
+
+<body class="bg-light">
+
+<div class="container mt-4 mb-4">
+
+    <div class="card mb-4">
+        <div class="text-center card-header bg-secondary text-white">
+            <h5 class="card-title mb-3">
+                User Form
+            </h5>
+        </div>
+        <div class="text-center card-body">
+            <input type="text" class="form-control mb-3" placeholder="Username">
+
+            <div class="input-group mb-3">
+                <input type="password" class="form-control" placeholder="Password">
+                <div class="input-group-append">
+                    <button class="btn btn-success">Login</button>
+                </div>
+            </div>
+            <button class="btn btn-primary">Submit</button>
+            <button class="btn btn-secondary">Reset</button>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-header bg-info text-center">
+                    <h6>
+                        Profile
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <input type="text" class="form-control mb-2" placeholder="Name">
+                    <button class="btn btn-outline-primary btn-block">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-header bg-warning text-center">
+                    <h6>
+                        Actions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="btn-group btn-group-sm btn-block mb-2">
+                        <button class="btn btn-success">Add</button>
+                        <button class="btn btn-warning">Edit</button>
+                        <button class="btn btn-danger">Delete</button>
+                    </div>
+
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-header bg-info text-center">
+                    <h6>
+                        Status
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2">
+                        Messages
+                    </p>
+
+                    <button class="btn btn-dark btn-block">
+                        View
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
