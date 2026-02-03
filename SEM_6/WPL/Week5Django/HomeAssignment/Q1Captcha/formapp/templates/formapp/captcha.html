@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Captcha Validation</title>
+</head>
+<body>
+    <h2>Captcha Verification</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <p><b>Captcha:</b> {{ captcha }}</p>
+
+        <input type="text" name="captcha" {% if disabled %}disabled{% endif %}>
+        <br><br>
+
+        <button type="submit" {% if disabled %}disabled{% endif %}>
+            Submit
+        </button>
+    </form>
+
+    <br>
+
+    {% if message %}
+        <label><b>{{ message }}</b></label>
+    {% endif %}
+</body>
+</html>
