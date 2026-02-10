@@ -1,0 +1,28 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+#cover {
+    width: 60%;
+    margin: auto;
+    padding: 20px;
+    border: 2px solid black;
+}
+
+#coverImage {
+    width: 100%;
+    height: auto;
+}
+
+#coverTitle {
+    margin-top: 15px;
+}
+
+#coverTagline {
+    font-size: 18px;
+}

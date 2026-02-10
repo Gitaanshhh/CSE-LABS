@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Magazine Cover Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+
+<h2>Magazine Cover Generator</h2>
+
+<form>
+    Title:
+    <input type="text" id="title" placeholder="Magazine Title"><br><br>
+
+    Tagline:
+    <input type="text" id="tagline" placeholder="Tagline"><br><br>
+
+    Font Size:
+    <input type="number" id="fontsize" value="32"><br><br>
+
+    Font Color:
+    <input type="color" id="fontcolor"><br><br>
+
+    Background Color:
+    <input type="color" id="bgcolor"><br><br>
+
+    Select Image:
+    <input type="file" id="image" accept="image/*"><br><br>
+
+    <button type="button" onclick="generateCover()">Generate Cover</button>
+</form>
+
+<hr>
+
+<div id="cover">
+    <img id="coverImage">
+    <h1 id="coverTitle">Magazine Title</h1>
+    <p id="coverTagline">Your tagline goes here</p>
+</div>
+
+<script>
+function generateCover() {
+    document.getElementById("coverTitle").innerHTML =
+        document.getElementById("title").value;
+
+    document.getElementById("coverTagline").innerHTML =
+        document.getElementById("tagline").value;
+
+    document.getElementById("coverTitle").style.fontSize =
+        document.getElementById("fontsize").value + "px";
+
+    document.getElementById("coverTitle").style.color =
+        document.getElementById("fontcolor").value;
+
+    document.getElementById("cover").style.backgroundColor =
+        document.getElementById("bgcolor").value;
+
+    var img = document.getElementById("image").files[0];
+    if (img) {
+        document.getElementById("coverImage").src = URL.createObjectURL(img);
+    }
+}
+</script>
+
+</body>
+</html>
