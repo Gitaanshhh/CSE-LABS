@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Message Formatter</title>
+</head>
+<body>
+
+<h2>Message Display Application</h2>
+
+Name:
+<input type="text" id="name"><br><br>
+
+Message:
+<input type="text" id="message"><br><br>
+
+Text Style:<br>
+<input type="checkbox" id="bold"> Bold<br>
+<input type="checkbox" id="italic"> Italic<br>
+<input type="checkbox" id="underline"> Underline<br><br>
+
+Text Color:<br>
+<input type="radio" name="color" value="black" checked> Black<br>
+<input type="radio" name="color" value="red"> Red<br>
+<input type="radio" name="color" value="blue"> Blue<br><br>
+
+<button onclick="displayMessage()">Display</button>
+<button onclick="clearAll()">Clear</button>
+<button onclick="exitApp()">Exit</button>
+
+<br><br>
+
+<label id="output"></label>
+
+<script>
+function displayMessage() {
+    var name = document.getElementById("name").value;
+    var msg = document.getElementById("message").value;
+    var text = name + " : " + msg;
+
+    var output = document.getElementById("output");
+    output.innerHTML = text;
+
+    // Reset styles
+    output.style.fontWeight = "normal";
+    output.style.fontStyle = "normal";
+    output.style.textDecoration = "none";
+
+    // Apply styles
+    if (document.getElementById("bold").checked) {
+        output.style.fontWeight = "bold";
+    }
+    if (document.getElementById("italic").checked) {
+        output.style.fontStyle = "italic";
+    }
+    if (document.getElementById("underline").checked) {
+        output.style.textDecoration = "underline";
+    }
+
+    // Apply color
+    var colors = document.getElementsByName("color");
+    for (var i = 0; i < colors.length; i++) {
+        if (colors[i].checked) {
+            output.style.color = colors[i].value;
+        }
+    }
+}
+
+function clearAll() {
+    document.getElementById("name").value = "";
+    document.getElementById("message").value = "";
+    document.getElementById("output").innerHTML = "";
+}
+
+function exitApp() {
+    window.close();
+}
+</script>
+
+</body>
+</html>
