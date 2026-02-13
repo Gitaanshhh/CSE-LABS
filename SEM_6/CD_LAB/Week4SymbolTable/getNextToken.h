@@ -1,11 +1,3 @@
-/*
-2. Design a lexical analyzer that includes a getNextToken() function for processing a simple C program.
-The analyzer should construct a token structure containing the row number, column number, and token
-type for each identified token. The getNextToken() function must ignore tokens located within single-
-line or multi-line comments, as well as those found inside string literals. Additionally, it should strip
-out preprocessor directives.
-*/
-
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
@@ -170,39 +162,4 @@ Token getNextToken(FILE *fp) {
 
     t.type = END;
     return t;
-}
-
-int main() {
-    FILE *fp = fopen("test.c", "r");
-    if (!fp) {
-        printf("File not found\n");
-        return 1;
-    }
-
-    Token t;
-    int prevRow = -1;
-
-    while ((t = getNextToken(fp)).type != END) {
-
-        if (t.row != prevRow) {
-            if (prevRow != -1) printf("\n");
-            printf("Row %d: ", t.row);
-            prevRow = t.row;
-        }
-
-        printf("<%d,%d,", t.row, t.col);
-
-        if (t.type == IDENTIFIER)
-            printf("id");
-        else if (t.type == NUMBER)
-            printf("num");
-        else
-            printf("%s", t.lexeme);
-
-        printf("> ");
-    }
-
-    printf("\n");
-    fclose(fp);
-    return 0;
 }
