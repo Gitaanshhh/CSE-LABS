@@ -1,0 +1,22 @@
+<html>
+<body>
+<form method="POST">
+    {% csrf_token %}
+
+    Name:<br>
+    <input type="text" name="name"><br><br>
+
+    Roll:<br>
+    <input type="text" name="roll"><br><br>
+
+    Subject:<br>
+    <select name="subject">
+        <option value="Maths">Maths</option>
+        <option value="Physics">Physics</option>
+        <option value="Chemistry">Chemistry</option>
+    </select><br><br>
+
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>
