@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Book Poll</title>
+</head>
+<body>
+
+<h3>How is the book ASP.NET with C# by Vipul Prakashan?</h3>
+
+<form method="POST">
+{% csrf_token %}
+
+<input type="radio" name="vote" value="good"> Good
+<label>{{good}}%</label>
+<br>
+
+<input type="radio" name="vote" value="satisfactory"> Satisfactory
+<label>{{sat}}%</label>
+<br>
+
+<input type="radio" name="vote" value="bad"> Bad
+<label>{{bad}}%</label>
+<br><br>
+
+<button type="submit">Vote</button>
+
+</form>
+
+</body>
+</html>

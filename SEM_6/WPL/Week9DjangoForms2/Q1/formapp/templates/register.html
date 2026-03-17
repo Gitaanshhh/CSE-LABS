@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+</head>
+<body>
+
+<h2>Register Page</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label>Username (Required)</label><br>
+    <input type="text" name="username" required><br><br>
+
+    <label>Password</label><br>
+    <input type="password" name="password"><br><br>
+
+    <label>Email</label><br>
+    <input type="email" name="email"><br><br>
+
+    <label>Contact Number</label><br>
+    <input type="text" name="contact"><br><br>
+
+    <button type="submit">Submit</button>
+
+</form>
+
+</body>
+</html>
