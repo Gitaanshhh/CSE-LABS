@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Product Selection</title>
+</head>
+
+<body>
+
+    <h3>Select Brand</h3>
+
+    <form method="POST" action="/bill/">
+        {% csrf_token %}
+
+        <input type="radio" name="brand" value="HP"> HP <br>
+        <input type="radio" name="brand" value="Nokia"> Nokia <br>
+        <input type="radio" name="brand" value="Samsung"> Samsung <br>
+        <input type="radio" name="brand" value="Motorola"> Motorola <br>
+        <input type="radio" name="brand" value="Apple"> Apple <br><br>
+
+        <h3>Select Item</h3>
+
+        <input type="checkbox" name="item" value="Mobile"> Mobile <br>
+        <input type="checkbox" name="item" value="Laptop"> Laptop <br><br>
+
+        <label>Quantity:</label><br>
+        <input type="number" name="qty"><br><br>
+
+        <button type="submit">Produce Bill</button>
+
+    </form>
+
+</body>
+
+</html>

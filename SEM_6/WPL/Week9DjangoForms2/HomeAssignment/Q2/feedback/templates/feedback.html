@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Customer Feedback Form</title>
+</head>
+
+<body>
+
+    <h3>Customer Feedback Form</h3>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Name:</label>
+        <input type="text" name="name"><br><br>
+        
+        <label>Sex:</label><br>
+
+        <input type="radio" name="sex" value="Male"> Male
+        <input type="radio" name="sex" value="Female"> Female
+
+        <br><br>
+
+        <label>Select Course:</label>
+
+        <select name="course">
+            <option>ASP-XML</option>
+            <option>DotNET</option>
+            <option>JavaPro</option>
+            <option>Unix,C,C++</option>
+        </select>
+
+        <br><br>
+
+        <label>Technical Coverage:</label><br>
+
+        <input type="radio" name="coverage"> Excellent <br>
+        <input type="radio" name="coverage"> Good <br>
+        <input type="radio" name="coverage"> Average <br>
+        <input type="radio" name="coverage"> Poor
+
+        <br><br>
+
+        <label>Suggestion:</label><br>
+
+        <textarea rows="4" cols="30"></textarea>
+
+        <br><br>
+
+        <button type="submit">Submit Form</button>
+
+    </form>
+
+    <br>
+
+    <b>{{ message }}</b>
+
+</body>
+
+</html>
