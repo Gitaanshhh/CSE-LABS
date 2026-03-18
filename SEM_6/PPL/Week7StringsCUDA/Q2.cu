@@ -14,8 +14,9 @@ Note: Each work item copies required number of characters from § in RS.
 
 #define N 1024
 
-__global__ void CUDACount(char* A, char *R, int n){
-    int i = threadIdx.x;
+__global__ void processWord(char* A, char *R, int n, int fn){
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i > fn) return;
     // int offset = 0;
     // for (int k=0; k<i; k++)
     //     offset += n-k;
@@ -45,7 +46,9 @@ int main() {
 
     cudaMemcpy(d_A, A, strlen(A), cudaMemcpyHostToDevice);
     
-    CUDACount<<<1,n>>>(d_A, d_R, n);
+    dim3 dimGrid(ceil(n/256.0), 1, 1);
+    dim3 dimBlock(256, 1, 1);
+    processWord<<<dimGrid,dimBlock>>>(d_A, d_R, n, fn);
     cudaDeviceSynchronize();
 
     cudaMemcpy(R, d_R, fn*sizeof(char), cudaMemcpyDeviceToHost);
