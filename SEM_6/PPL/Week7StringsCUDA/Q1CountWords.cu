@@ -12,11 +12,13 @@
 
 #define N 1024
 
-__global__ void CUDACount(char* s, char* w, int*indices, int *d_c, int n, int m){
-    int i = threadIdx.x; //int i = blockIdx.x * blockDim.x + threadIdx.x;
+__global__ void countWords(char* s, char* w, int*indices, int *d_c, int n, int m, int numWords){
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
     int start = indices[i];
     int flag = 1;
  
+    if (i >= numWords) return; 
+
     if (start + m > n) 
         return;
 
@@ -74,7 +76,10 @@ int main() {
 
     cudaEventRecord(start, 0);
 
-    CUDACount<<<1,numWords>>>(d_s, d_w, d_indices, d_c, strlen(s), strlen(w));
+    dim3 dimGrid(ceil(numWords/256.0), 1, 1);
+    dim3 dimBlock(256, 1, 1);
+
+    countWords<<<dimGrid,dimBlock>>>(d_s, d_w, d_indices, d_c, strlen(s), strlen(w), numWords);
     
     cudaDeviceSynchronize();
 
