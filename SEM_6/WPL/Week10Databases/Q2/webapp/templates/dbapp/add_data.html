@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Add Data</h2>
+
+<form method="post">
+    {% csrf_token %}
+    
+    <h3>WORKS Details</h3>
+    {{ form.person_name.label }}: {{ form.person_name }}<br>
+    {{ form.company_name.label }}: {{ form.company_name }}<br>
+    {{ form.salary.label }}: {{ form.salary }}<br>
+
+    <h3>LIVES Details (Optional)</h3>
+    {{ form.street.label }}: {{ form.street }}<br>
+    {{ form.city.label }}: {{ form.city }}<br><br>
+
+    <button type="submit">Save</button>
+</form>
+
+<a href="{% url 'index' %}">Back</a>
+
+</body>
+</html>

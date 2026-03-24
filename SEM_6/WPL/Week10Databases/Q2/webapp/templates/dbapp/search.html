@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Search by Company</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Search</button>
+</form>
+
+<hr>
+
+{% for r in results %}
+    <p>
+        Name: {{ r.name }} |
+        City: {{ r.city }}
+    </p>
+{% empty %}
+    <p>No results</p>
+{% endfor %}
+
+<a href="{% url 'index' %}">Back</a>
+
+</body>
+</html>
