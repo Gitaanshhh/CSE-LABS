@@ -36,14 +36,16 @@ __global__ void matSumEle(int *A, int *B, int *C, int m, int n) {
 }
 
 int main(void) {
-    int m, n;
+    int m, n, size;
 
     printf("Enter rows and cols of A (m n): ");
     scanf("%d %d", &m, &n);
 
-    int *A = (int*)malloc(m * n * sizeof(int));
-    int *B = (int*)malloc(n * n * sizeof(int));
-    int *C = (int*)malloc(m * n * sizeof(int));
+    size = m*n*sizeof(int);
+
+    int *A = (int*)malloc(size);
+    int *B = (int*)malloc(size);
+    int *C = (int*)malloc(size);
     
     printf("Enter matrix A:\n");
     for (int i = 0; i < m * n; i++)
@@ -55,25 +57,25 @@ int main(void) {
     
     int *d_A, *d_B, *d_C;
 
-    cudaMalloc((void**)&d_A, m * n * sizeof(int));
-    cudaMalloc((void**)&d_B, n * n * sizeof(int));
-    cudaMalloc((void**)&d_C, m * n * sizeof(int));
+    cudaMalloc((void**)&d_A, size);
+    cudaMalloc((void**)&d_B, size);
+    cudaMalloc((void**)&d_C, size);
 
-    cudaMemcpy(d_A, A, m * n * sizeof(int), cudaMemcpyHostToDevice);
-    cudaMemcpy(d_B, B, n * n * sizeof(int), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_A, A, size, cudaMemcpyHostToDevice);
+    cudaMemcpy(d_B, B, size, cudaMemcpyHostToDevice);
 
 
     // a) Row-wise
     matSumRow<<<1, m>>>(d_A, d_B, d_C, m, n);
 
     // b) Column-wise
-    // matSumCol<<<1, p>>>(d_A, d_B, d_C, m, n);
+    // matSumCol<<<1, n>>>(d_A, d_B, d_C, m, n);
 
     // c) Element-wise
-    // dim3 threads(p, m);
+    // dim3 threads(n, m);
     // matSumEle<<<1, threads>>>(d_A, d_B, d_C, m, n);
 
-    cudaMemcpy(C, d_C, m * n * sizeof(int), cudaMemcpyDeviceToHost);
+    cudaMemcpy(C, d_C, size, cudaMemcpyDeviceToHost);
 
     printf("\nResult matrix C:\n");
     for (int i = 0; i < m; i++) {
