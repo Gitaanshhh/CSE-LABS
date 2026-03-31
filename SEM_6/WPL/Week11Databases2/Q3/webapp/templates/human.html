@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Human CRUD</title>
+</head>
+
+<body>
+
+    <h2>Select Human</h2>
+
+    <!-- Dropdown Form -->
+    <form method="get">
+        <select name="human_id" onchange="this.form.submit()">
+            <option value="">-- Select First Name --</option>
+            {% for human in humans %}
+            <option value="{{ human.id }}" 
+    {% if selected and human.id == selected.id %}selected{% endif %}>
+                {{ human.first_name }}
+            </option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <hr>
+
+    <!-- Details Form -->
+    {% if selected %}
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="human_id" value="{{ selected.id }}">
+
+        First Name: <input type="text" name="first_name" value="{{ selected.first_name }}"><br><br>
+        Last Name: <input type="text" name="last_name" value="{{ selected.last_name }}"><br><br>
+        Phone: <input type="text" name="phone" value="{{ selected.phone }}"><br><br>
+        Address: <input type="text" name="address" value="{{ selected.address }}"><br><br>
+        City: <input type="text" name="city" value="{{ selected.city }}"><br><br>
+
+        <button type="submit" name="update">Update</button>
+        <button type="submit" name="delete">Delete</button>
+    </form>
+    {% endif %}
+
+    <hr>
+
+    <h2>Add New Human</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        First Name: <input type="text" name="first_name"><br><br>
+        Last Name: <input type="text" name="last_name"><br><br>
+        Phone: <input type="text" name="phone"><br><br>
+        Address: <input type="text" name="address"><br><br>
+        City: <input type="text" name="city"><br><br>
+
+        <button type="submit" name="add">Add</button>
+    </form>
+
+</body>
+
+</html>
