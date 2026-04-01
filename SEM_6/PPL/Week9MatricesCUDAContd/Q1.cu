@@ -1,6 +1,5 @@
 /*
-1. Write a program in CUDA to perform parallel Sparse Matrix - Vector multiplication using com-pressed sparse row (CSR) storage format. Represent the input sparse matrix in CSR format in the
-host code.
+1. Write a program in CUDA to perform parallel Sparse Matrix - Vector multiplication using com-pressed sparse row (CSR) storage format. Represent the input sparse matrix in CSR format in the host code.
 */
 
 #include "cuda_runtime.h"
@@ -19,28 +18,26 @@ __global__ void csrSpMV(int *values, int *colIndex, int *rowPtr, int *x, int *y,
             sum += values[j] * x[colIndex[j]];
         y[row] = sum;
     }
-}
+} 
 
 int main() {
-    int rows, cols;
+    int rows, cols, nnz = 0;
 
     printf("Enter number of rows and columns: ");
     scanf("%d %d", &rows, &cols);
 
     int **matrix = (int**)malloc(rows * sizeof(int*));
-    for (int i = 0; i < rows; i++)
-        matrix[i] = (int*)malloc(cols * sizeof(int));
 
     printf("Enter matrix elements:\n");
-    for (int i = 0; i < rows; i++)
-        for (int j = 0; j < cols; j++)
-            scanf("%d", &matrix[i][j]);
 
-    int nnz = 0;
-    for (int i = 0; i < rows; i++)
-        for (int j = 0; j < cols; j++)
+    for (int i = 0; i < rows; i++) {
+        matrix[i] = (int*)malloc(cols * sizeof(int));
+        for (int j = 0; j < cols; j++) {
+            scanf("%d", &matrix[i][j]);
             if (matrix[i][j] != 0)
                 nnz++;
+        }
+    }
 
     int *values = (int*)malloc(nnz * sizeof(int));
     int *colIndex = (int*)malloc(nnz * sizeof(int));
