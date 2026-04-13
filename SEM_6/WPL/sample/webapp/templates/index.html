@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form Demo</title>
+    <link rel="stylesheet" href="{% static 'webapp/style.css' %}">
+</head>
+<body>
+    <div class="card">
+        <h1>Basic Login Form</h1>
+
+        <!-- When form is submitted successfully, show this message -->
+        {% if success %}
+            <p class="success">Saved successfully.</p>
+        {% endif %}
+
+        <!-- action uses URL name "index": if path changes later, this still works -->
+        <!-- method POST is used because this request changes data in DB -->
+        <form name="form" action="{% url 'index' %}" method="POST">
+            <!-- CSRF = Cross-Site Request Forgery token protection -->
+            {% csrf_token %}
+
+            <!-- form.as_p prints all form fields in paragraph tags -->
+            {{ form.as_p }}
+
+            <button type="submit">Save</button>
+        </form>
+
+        <!-- Hyperlink to second page that shows all rows in a table -->
+        <a class="link-btn" href="{% url 'all_data' %}">View All Data</a>
+    </div>
+</body>
+</html>

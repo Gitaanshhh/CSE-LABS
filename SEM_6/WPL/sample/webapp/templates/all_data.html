@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Data</title>
+    <link rel="stylesheet" href="{% static 'webapp/style.css' %}">
+</head>
+<body>
+    <div class="panel">
+        <h2>Saved Data Table</h2>
+
+        <!-- Show all records from the database -->
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in records %}
+                    <tr>
+                        <td>{{ row.id }}</td>
+                        <td>{{ row.username }}</td>
+                        <td>{{ row.password }}</td>
+                        <td>{{ row.created_at }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4">No data yet.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="actions">
+            <a class="btn" href="{% url 'index' %}">Back To Form</a>
+        </div>
+    </div>
+</body>
+</html>
