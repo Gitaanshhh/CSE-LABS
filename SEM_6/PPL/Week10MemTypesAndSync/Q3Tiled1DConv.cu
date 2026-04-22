@@ -19,8 +19,8 @@ __global__ void tiledConv1D(int *N, int *M, int *P, int width) {
     int tx = threadIdx.x;
     int bx = blockIdx.x;
     
-    int start = bx * TILE_SIZE;
-    int i = start + tx;
+    int start = bx * TILE_SIZE;    //global blockId
+    int i = start + tx;            //global threadInd 
 
     int halo = MASK_WIDTH / 2;
 
@@ -30,12 +30,12 @@ __global__ void tiledConv1D(int *N, int *M, int *P, int width) {
         Ns[tx + halo] = 0;
 
     if (tx < halo) {
-        int leftIdx = start + tx - halo;
+        int leftIdx = i - halo;
         Ns[tx] = (leftIdx >= 0) ? N[leftIdx] : 0;
     }
 
     if (tx < halo) {
-        int rightIdx = start + TILE_SIZE + tx;
+        int rightIdx = i + TILE_SIZE;
         Ns[tx + TILE_SIZE + halo] = (rightIdx < width) ? N[rightIdx] : 0;
     }
 
